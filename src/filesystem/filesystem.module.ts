@@ -10,7 +10,7 @@ export const FILESYSTEM_SERVICE_TOKEN = 'FILESYSTEM_SERVICE_TOKEN';
     {
       provide: 'FILESYSTEM_SERVICE_TOKEN',
       useValue: {
-        readFile: readFileSync,
+        readFile: (p) => readFileSync(p, 'utf8'),
         writeFile: writeFileSync,
       },
     },

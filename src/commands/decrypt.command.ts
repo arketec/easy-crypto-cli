@@ -5,6 +5,7 @@ import {
   InquirerService,
   Option,
 } from 'nest-commander';
+import { resolve } from 'path';
 import { CryptoService } from '../crypto/crypto.service';
 import { FilesystemService } from '../filesystem/filesystem.service';
 
@@ -48,7 +49,7 @@ export class DecryptCommand extends CommandRunner {
     options?: Record<string, any>,
   ): Promise<void> {
     const [data] = passedParams;
-    if (!data) {
+    if (!data && !options?.envFile) {
       this.logger.error('No data provided');
       return;
     }
@@ -69,7 +70,7 @@ export class DecryptCommand extends CommandRunner {
     if (options?.file) {
       return this.decryptFile(data, passphrase);
     } else if (options?.envFile) {
-      return this.decryptEnvFile(data, passphrase);
+      return this.decryptEnvFile(data || '.env', passphrase);
     } else {
       return this.decryptString(data, passphrase);
     }
@@ -92,7 +93,8 @@ export class DecryptCommand extends CommandRunner {
     filePath: string,
     passphrase: string,
   ): Promise<void> {
-    const fileContent = this.filesystem.readFile(filePath);
+    const path = resolve(process.cwd(), filePath);
+    const fileContent = this.filesystem.readFile(path);
     const decrypted = this.service.decrypt(fileContent, passphrase);
     this.filesystem.writeFile(filePath, decrypted);
     this.logger.log(`File ${filePath} decrypted`);
@@ -106,7 +108,8 @@ export class DecryptCommand extends CommandRunner {
       this.logger.error('File must be a .env file');
       return;
     }
-    const fileContent = this.filesystem.readFile(filePath);
+    const path = resolve(process.cwd(), filePath);
+    const fileContent = this.filesystem.readFile(path);
     const lines = fileContent.split('\n');
     const decryptedLines = lines.map((line) => {
       const [key, value] = line.split('=');

@@ -38,6 +38,14 @@ describe('Encrypt Command', () => {
     expect(mockLoggerSpy).toHaveBeenCalled();
   });
 
+  it('should encrypt a string with a password prompt', async () => {
+    CommandTestFactory.setAnswers(['test']);
+    const mockLoggerSpy = jest.spyOn(mockLogger, 'log');
+    await CommandTestFactory.run(commandInstance, ['encrypt', 'test']);
+
+    expect(mockLoggerSpy).toHaveBeenCalled();
+  });
+
   it('should encrypt a file', async () => {
     const readSpy = jest
       .spyOn(mockFileSystem, 'readFile')
@@ -66,7 +74,6 @@ describe('Encrypt Command', () => {
       .mockImplementation((path, data) => console.log(path, data));
     await CommandTestFactory.run(commandInstance, [
       'encrypt',
-      '.env',
       '--envFile',
       '--passphrase',
       'test',

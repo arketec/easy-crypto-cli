@@ -1,0 +1,10 @@
+coverage
+dist/tsconfig.build.tsbuildinfo
+src
+test
+.eslintrc.js
+.prettierrc
+.vscode
+nest-cli.json
+tsconfig.json
+tsconfig.build.json

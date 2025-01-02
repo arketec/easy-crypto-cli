@@ -1,12 +1,11 @@
 {
   "name": "easy-crypto-cli",
-  "version": "0.0.1",
+  "version": "1.0.10",
   "description": "",
-  "author": "",
-  "private": true,
+  "author": "Noah Maughan",
   "license": "UNLICENSED",
   "bin": {
-    "easy-crypto-cli": "dist/main.js"
+    "easy-crypto-cli": "./dist/main.js"
   },
   "scripts": {
     "build": "nest build",
@@ -72,5 +71,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

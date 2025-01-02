@@ -20,6 +20,7 @@ export class PassphraseQuestions {
 @Module({
   imports: [FilesystemModule, CryptoModule],
   providers: [
+    PassphraseQuestions,
     EncryptCommand,
     DecryptCommand,
     {
